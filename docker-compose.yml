@@ -1,0 +1,50 @@
+version: "3"
+services:
+  nginx:
+    image: nginx:latest
+    container_name: node_nginx
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+    ports:
+      - 82:80
+    depends_on:
+      - "nodesrv1"
+      - "nodesrv2"
+      - "nodesrv3"
+
+  nodesrv1:
+    build:
+      context: ./nodejsapp
+    ports:
+      - 3000:3000
+    volumes:
+      - ./nodejsapp:/home/node/app
+    entrypoint:
+      - "/bin/sh"
+      - "-c"
+      - "npm i && npm run start:dev"
+
+  nodesrv2:
+    build:
+      context: ./nodejsapp
+    ports:
+      - 3001:3000
+    volumes:
+      - ./nodejsapp:/home/node/app
+    entrypoint:
+      - "/bin/sh"
+      - "-c"
+      - "npm i && npm run start:dev"
+
+  nodesrv3:
+    build:
+      context: ./nodejsapp
+    ports:
+      - 3002:3000
+    volumes:
+      - ./nodejsapp:/home/node/app
+    entrypoint:
+      - "/bin/sh"
+      - "-c"
+      - "npm i && npm run start:dev"
+
